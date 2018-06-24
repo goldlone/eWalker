@@ -36,7 +36,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        initFragment1();
+//        initFragment1();
+//        initFragment2();
+        initFragment3();
+        activeTitle(3);
     }
 
     private void initView() {
