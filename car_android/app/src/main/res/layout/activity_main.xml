@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
+
     <include
         layout="@layout/navigator_left" />
 
@@ -16,5 +17,10 @@
         android:background="@color/masterPanel">
 
     </FrameLayout>
+
+    <SurfaceView
+        android:id="@+id/hideSurfaceView"
+        android:layout_width="1dp"
+        android:layout_height="1dp" />
 
 </LinearLayout>

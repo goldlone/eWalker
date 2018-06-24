@@ -21,6 +21,17 @@
     <!--这个权限用于允许程序在手机屏幕关闭后后台进程仍然运行-->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
+    <!-- 录像需要 -->
+    <uses-permission android:name="android.permission.CAMERA" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
+    </uses-permission>
+    <!-- 悬浮窗口权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/carapp"
@@ -37,15 +48,18 @@
             android:name=".view.activity.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="landscape">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
+        <!-- 测试导航 -->
         <activity android:name=".view.activity.NavActivity">
         </activity>
+        <!-- 测试录像 -->
+        <!--<service android:name=".service.VideoService" />-->
 
 
         <service android:name="com.amap.api.location.APSService"></service>
