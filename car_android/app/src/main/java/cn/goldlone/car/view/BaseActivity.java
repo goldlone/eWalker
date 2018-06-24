@@ -40,8 +40,6 @@ import cn.goldlone.car.R;
  */
 public class BaseActivity extends AppCompatActivity {
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +48,7 @@ public class BaseActivity extends AppCompatActivity {
         // 设置全屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
     }
 
     @Override

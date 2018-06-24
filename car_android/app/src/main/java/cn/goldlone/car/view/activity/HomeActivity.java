@@ -55,15 +55,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,S
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Accessibility();
         initView();
         initFragment1();
 //        initFragment2();
 //        initFragment3();
         activeTitle(1);
 
-
-//        setWindow();
-        Accessibility();
     }
 
     private void initView() {
@@ -153,8 +151,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,S
     }
 
 
-
-    //隐藏所有的fragment
+    // 隐藏所有的fragment
     private void hideFragment(FragmentTransaction transaction){
         if(homeFragment != null){
             transaction.hide(homeFragment);
@@ -217,22 +214,41 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,S
     }
 
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                if((System.currentTimeMillis() - firstClickUpVolume) < 500) {
+                    Toast.makeText(this, "触发求救", Toast.LENGTH_SHORT).show();
+                    startHideVideos();
+                }
+                firstClickUpVolume = System.currentTimeMillis();
+                break;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
 
-
-
-
-
-
-
-
+    /**
+     * 启动隐秘录像，定时设置为10秒
+     */
+    public void startHideVideos() {
+        startRecord();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                stopRecord();
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(timerTask, 10*1000);
+    }
 
     // 第一次按键时间
     private long firstClickUpVolume = 0;
     // 隐秘录像
     private SurfaceView mSurfaceView;
     private SurfaceHolder mSurfaceHolder;
-    //    private Button btnStartStop;
     private boolean isRecording = false;//标记是否已经在录制
     private MediaRecorder mRecorder;//音视频录制类
     private Camera mCamera = null;//相机
@@ -247,40 +263,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,S
         orientations.append(Surface.ROTATION_180, 270);
         orientations.append(Surface.ROTATION_270, 180);
     }
-
-
-
-
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_VOLUME_UP:
-                if((System.currentTimeMillis() - firstClickUpVolume) < 500) {
-                    Toast.makeText(this, "触发求救", Toast.LENGTH_SHORT).show();
-                    startRecord();
-                    TimerTask timerTask = new TimerTask() {
-                        @Override
-                        public void run() {
-                            stopRecord();
-                        }
-                    };
-                    Timer timer = new Timer();
-                    timer.schedule(timerTask, 10*1000);
-                }
-                firstClickUpVolume = System.currentTimeMillis();
-                break;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-
-
-
-
-
-
-
 
     private void setWindow() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉标题栏

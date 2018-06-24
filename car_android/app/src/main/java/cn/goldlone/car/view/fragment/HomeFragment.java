@@ -1,5 +1,6 @@
 package cn.goldlone.car.view.fragment;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import cn.goldlone.car.R;
+import cn.goldlone.car.view.activity.PhoneActivity;
 
 /**
  * @author : Created by CN on 2018/6/9 23:30
@@ -53,7 +55,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getActivity(), "语音提示", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_home_phone:
-                Toast.makeText(getActivity(), "打电话", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "打电话", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), PhoneActivity.class));
                 break;
             case R.id.btn_home_help:
                 Toast.makeText(getActivity(), "求救", Toast.LENGTH_SHORT).show();
