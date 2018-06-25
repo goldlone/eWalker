@@ -2,7 +2,13 @@ package cn.goldlone.car.utils;
 
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import cn.goldlone.car.Configs;
@@ -67,7 +73,7 @@ public class HttpUtils {
      * @return
      */
     public static void postGeoInfo(GeoInfo info) {
-        String url = Configs.serverIP+"geo/receive";
+        String url = Configs.SERVER_IP+"geo/receive";
         OkHttpClient okHttpClient  = new OkHttpClient.Builder()
                 .connectTimeout(3, TimeUnit.SECONDS)
                 .writeTimeout(3, TimeUnit.SECONDS)
@@ -100,6 +106,55 @@ public class HttpUtils {
                 }
             }
         });
+    }
+
+    /**
+     * 上传求救视频
+     * @return
+     */
+    public static String sendHelpVideo(File file) {
+        try {
+            String urlPath = Configs.SERVER_IP+"help/video/upload";
+            URL url = new URL(urlPath);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "video/mpeg");
+            conn.setRequestProperty("Cache-Control", "no-cache");
+            conn.setRequestProperty("Charset", "UTF-8");
+
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setUseCaches(false);
+
+            conn.connect();
+            conn.setConnectTimeout(10000);
+
+            OutputStream os = conn.getOutputStream();
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] bytes = new byte[1024];
+            int len;
+            while((len=fileInputStream.read(bytes))!=-1) {
+                os.write(bytes, 0, len);
+            }
+            os.flush();
+            os.close();
+
+            if(conn.getResponseCode() == 200){
+                InputStream is = conn.getInputStream();
+                StringBuilder sb = new StringBuilder();
+                len = 0;
+                byte[] buf = new byte[128];
+                while((len = is.read(buf)) != -1) {
+                    sb.append(new String(buf, 0, len));
+                }
+                System.out.println("求救视频上传成功");
+                System.out.println(sb.toString());
+                return sb.toString();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"> 
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>查询汽车位置</title>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.6&key=5ad45bf74f7d0d16eed74ee67d76ab83"></script> 
+    <style>
+        #container {
+            position: absolute;
+            width: 100%; 
+            height: 100%; 
+        }
+    </style>
+
+</head>
+<body>
+    <div id="container"></div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        // 默认地图控件
+        var map = new AMap.Map('container', {
+                zoom: 14,//级别
+                center: [116.397428, 39.90923],//中心点坐标
+                // viewMode:'3D'//使用3D视图
+            });
+        // 汽车标记
+        var carMarker = null;
+
+        getRecentlyLocation();
+        updateCarMarker();
+        
+        // 定时更新地图标记
+        function updateCarMarker() {
+            setInterval("getRecentlyLocation()", 2000);
+        }
+
+        // 获取当前最新的位置
+        function getRecentlyLocation() {
+            $.ajax({
+                type: "GET",
+                url: "http://172.25.154.37:8080/car/geo/location/recently",
+                contentType: "application/x-www-form-urlencoded",
+                data: {
+                    "userId": "18435187057"
+                },
+                success: function(res) {
+                    // console.log(res);
+                    // console.log(res.data);
+                    if(res.code == 1001) {
+                        // 更新地图中心点
+                        map.setCenter(new AMap.LngLat(res.data.longitude, res.data.latitude));
+                        // 清楚标记
+                        if(carMarker != null)
+                            map.remove(carMarker);
+                        // 设置汽车标记
+                        carMarker = new AMap.Marker({
+                            icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                            position: [res.data.longitude, res.data.latitude]
+                        });
+                        
+                        map.add(carMarker);
+                    }
+                },
+                error: function(res) {
+                    console.log(res);
+                }
+            });
+        }
+
+
+
+    </script>
+</body>
+</html>

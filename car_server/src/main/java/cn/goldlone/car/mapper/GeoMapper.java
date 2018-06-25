@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface GeoMapper {
+    // 存储位置信息
     public int addGeoInfo(GeoInfo info);
-
+    // 查询该汽车最近的位置
+    public GeoInfo selectRecentlyLocation(String userId);
 }

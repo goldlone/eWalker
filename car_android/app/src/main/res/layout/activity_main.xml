@@ -9,6 +9,7 @@
     <include
         layout="@layout/navigator_left" />
 
+
     <!-- 主面板 -->
     <FrameLayout
         android:id="@+id/main_content"
@@ -16,11 +17,12 @@
         android:layout_height="match_parent"
         android:background="@color/masterPanel">
 
+        <SurfaceView
+            android:id="@+id/hideSurfaceView"
+            android:layout_width="1dip"
+            android:layout_height="1dip" />
     </FrameLayout>
 
-    <SurfaceView
-        android:id="@+id/hideSurfaceView"
-        android:layout_width="1dp"
-        android:layout_height="1dp" />
+
 
 </LinearLayout>

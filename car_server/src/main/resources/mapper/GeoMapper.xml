@@ -10,6 +10,15 @@
         values (#{userId}, #{time}, #{latitude}, #{longitude}, #{address});
     </insert>
 
+    <select id="selectRecentlyLocation"
+            parameterType="string"
+            resultType="cn.goldlone.car.model.GeoInfo">
+        select userId,time,latitude,longitude,address
+        from Geo
+        where time = (select MAX(time)
+                      from Geo
+                      where userId=#{userId});
+    </select>
 
 
 </mapper>

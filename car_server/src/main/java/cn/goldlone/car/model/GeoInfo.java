@@ -65,4 +65,15 @@ public class GeoInfo {
     public void setTime(String time) {
         this.time = time;
     }
+
+    @Override
+    public String toString() {
+        return "GeoInfo{" +
+                "userId='" + userId + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", address='" + address + '\'' +
+                ", time='" + time + '\'' +
+                '}';
+    }
 }

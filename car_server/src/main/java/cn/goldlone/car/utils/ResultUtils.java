@@ -10,6 +10,8 @@ public class ResultUtils {
     public static final int SUCCESS = 1001;
 
     // 失败状态码
+    // 无结果
+    public static final int RESULT_EMPTY = 2001;
     // 解析JSON失败
     public static final int JSON_ANALYZE_FAIL = 2003;
 

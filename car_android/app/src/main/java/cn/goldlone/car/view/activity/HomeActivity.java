@@ -72,7 +72,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 //        initFragment3();
         activeTitle(1);
 
-        initLocation();
+//        initLocation();
     }
 
     @Override
@@ -242,7 +242,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 if((System.currentTimeMillis() - firstClickUpVolume) < 500) {
                     Configs.isHelping = true;
                     Toast.makeText(this, "触发求救", Toast.LENGTH_SHORT).show();
-                    // initLocation();
+//                    initLocation();
                     startHideVideos();
                 }
                 firstClickUpVolume = System.currentTimeMillis();
@@ -358,11 +358,18 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
      * 启动隐秘录像，定时设置为10秒
      */
     public void startHideVideos() {
+        Log.e("TAG", "开始录像1");
         startRecord();
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
                 stopRecord();
+                new Thread() {
+                    @Override
+                    public void run() {
+                        HttpUtils.sendHelpVideo(new File(videoFileName));
+                    }
+                }.start();
             }
         };
         Timer timer = new Timer();
@@ -371,6 +378,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
     // 第一次按键时间
     private long firstClickUpVolume = 0;
+    // 视频文件名
+    private String videoFileName;
     // 隐秘录像
     private SurfaceView mSurfaceView;
     private SurfaceHolder mSurfaceHolder;
@@ -414,11 +423,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
      * 初始化相机
      */
     private void initCamera() {
+        Log.e("TAG", "开始录像2.1");
         if (Camera.getNumberOfCameras() == 2) {
             mCamera = Camera.open(mCameraFacing);
         } else {
             mCamera = Camera.open();
         }
+        Log.e("TAG", "开始录像2");
 
         CameraSizeComparator sizeComparator = new CameraSizeComparator();
         Camera.Parameters parameters = mCamera.getParameters();
@@ -457,6 +468,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
      */
     private void startRecord() {
         initCamera();
+        Log.e("TAG", "开始录像3");
         if (mRecorder == null) {
             mRecorder = new MediaRecorder(); // 创建MediaRecorder
         }
@@ -493,6 +505,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                     dir.mkdir();
                 }
                 path = dir + "/" + System.currentTimeMillis() + ".mp4";
+                videoFileName = path;
                 //设置输出文件的路径
                 mRecorder.setOutputFile(path);
                 //准备录制
