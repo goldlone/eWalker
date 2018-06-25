@@ -20,14 +20,16 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <!--这个权限用于允许程序在手机屏幕关闭后后台进程仍然运行-->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <!--用于申请调用A-GPS模块-->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!--用于申请获取蓝牙信息进行室内定位-->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
-    <!-- 录像需要 -->
-    <uses-permission android:name="android.permission.CAMERA" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.RECORD_AUDIO" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
-    </uses-permission>
+    <!-- 摄像头 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 录音 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!--&lt;!&ndash; 悬浮窗口权限 &ndash;&gt;-->
     <!--<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />-->
     <!-- 打电话 -->
@@ -44,13 +46,13 @@
         android:screenOrientation="landscape">
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="65087ed53fe6e498589125595de7733f"/>
+            android:value="65087ed53fe6e498589125595de7733f" />
 
 
+        <!-- 首页 -->
         <activity
             android:name=".view.activity.HomeActivity"
             android:screenOrientation="landscape">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -60,16 +62,16 @@
         <!-- 测试导航 -->
         <activity android:name=".view.activity.NavActivity">
         </activity>
-        <!-- 测试录像 -->
-        <!--<service android:name=".service.VideoService" />-->
 
         <!-- 拨打电话 -->
         <activity
             android:name=".view.activity.PhoneActivity"
             android:screenOrientation="landscape" />
 
-
+        <!-- 声明高德地图定位Service -->
         <service android:name="com.amap.api.location.APSService"></service>
+
+
         <!--<activity android:name="com.amap.api.navi.AmapRouteActivity"-->
             <!--android:theme="@android:style/Theme.NoTitleBar"-->
             <!--android:configChanges="orientation|keyboardHidden|screenSize" />-->

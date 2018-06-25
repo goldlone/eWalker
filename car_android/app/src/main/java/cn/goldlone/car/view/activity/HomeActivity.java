@@ -25,21 +25,31 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
+
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.goldlone.car.Configs;
 import cn.goldlone.car.R;
+import cn.goldlone.car.model.GeoInfo;
+import cn.goldlone.car.utils.HttpUtils;
 import cn.goldlone.car.view.BaseActivity;
 import cn.goldlone.car.view.fragment.HealthFragment;
 import cn.goldlone.car.view.fragment.HomeFragment;
 import cn.goldlone.car.view.fragment.MusicFragment;
 import cn.goldlone.car.view.fragment.NavigatorFragment;
 
-public class HomeActivity extends BaseActivity implements View.OnClickListener,SurfaceHolder.Callback {
+public class HomeActivity extends BaseActivity implements View.OnClickListener, SurfaceHolder.Callback, AMapLocationListener {
 
     private HomeFragment homeFragment;
     private HealthFragment healthFragment;
@@ -62,6 +72,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,S
 //        initFragment3();
         activeTitle(1);
 
+        initLocation();
+    }
+
+    @Override
+    public void onPause() {
+        releaseCamera();
+        super.onPause();
     }
 
     private void initView() {
@@ -150,7 +167,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,S
         transaction.commit();
     }
 
-
     // 隐藏所有的fragment
     private void hideFragment(FragmentTransaction transaction){
         if(homeFragment != null){
@@ -213,13 +229,20 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,S
         }
     }
 
-
+    /**
+     * 监听按键
+     * @param keyCode 按键码
+     * @param event 按键事件
+     * @return ?
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if((System.currentTimeMillis() - firstClickUpVolume) < 500) {
+                    Configs.isHelping = true;
                     Toast.makeText(this, "触发求救", Toast.LENGTH_SHORT).show();
+                    // initLocation();
                     startHideVideos();
                 }
                 firstClickUpVolume = System.currentTimeMillis();
@@ -227,6 +250,108 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,S
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    // 声明AMapLocationClientOption对象
+    public AMapLocationClientOption mLocationOption = null;
+    // 声明AMapLocationClient类对象
+    public AMapLocationClient mLocationClient = null;
+
+    /**
+     * 初始化定位
+     */
+    public void initLocation() {
+        // 初始化定位
+        mLocationClient = new AMapLocationClient(getApplicationContext());
+        // 设置定位回调监听
+        mLocationClient.setLocationListener(this);
+        // 初始化定位参数
+        initLocationOptions();
+
+        // 给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        // 启动定位
+        mLocationClient.startLocation();
+    }
+
+    /**
+     * 初始化定位参数
+     */
+    public void initLocationOptions() {
+        // 初始化AMapLocationClientOption对象
+        mLocationOption = new AMapLocationClientOption();
+        // 设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        // 获取一次定位结果：该方法默认为false。
+        mLocationOption.setOnceLocation(false);
+        // 设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。
+        mLocationOption.setInterval(Configs.intervalGeo*1000);
+        // 设置是否返回地址信息（默认返回地址信息）
+        mLocationOption.setNeedAddress(true);
+        // 单位是毫秒，默认30000毫秒，建议超时时间不要低于8000毫秒。
+        mLocationOption.setHttpTimeOut(20000);
+        // 关闭缓存机制
+        mLocationOption.setLocationCacheEnable(false);
+    }
+
+
+//    private Thread helpThread;
+    /**
+     * 定位监听器
+     * @param aMapLocation
+     */
+    @Override
+    public void onLocationChanged(AMapLocation aMapLocation) {
+        if(null != aMapLocation) {
+            if(aMapLocation.getErrorCode() == 0) {
+                StringBuffer sb = new StringBuffer();
+                sb.append("纬度: ").append(aMapLocation.getLatitude());
+                sb.append("\n经度: ").append(aMapLocation.getLongitude());
+                sb.append("\n地址: ").append(aMapLocation.getAddress());
+
+                Log.e("定位：", sb.toString());
+                final GeoInfo info = new GeoInfo(Configs.userId, aMapLocation.getLatitude(),
+                        aMapLocation.getLongitude(), aMapLocation.getAddress(), aMapLocation.getTime());
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        HttpUtils.postGeoInfo(info);
+                    }
+                };
+                thread.start();
+
+//                aMapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
+//                aMapLocation.getLatitude();//获取纬度
+//                aMapLocation.getLongitude();//获取经度
+//                aMapLocation.getAccuracy();//获取精度信息
+//                aMapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
+//                aMapLocation.getCountry();//国家信息
+//                aMapLocation.getProvince();//省信息
+//                aMapLocation.getCity();//城市信息
+//                aMapLocation.getDistrict();//城区信息
+//                aMapLocation.getStreet();//街道信息
+//                aMapLocation.getStreetNum();//街道门牌号信息
+//                aMapLocation.getCityCode();//城市编码
+//                aMapLocation.getAdCode();//地区编码
+//                aMapLocation.getAoiName();//获取当前定位点的AOI信息
+//                aMapLocation.getBuildingId();//获取当前室内定位的建筑物Id
+//                aMapLocation.getFloor();//获取当前室内定位的楼层
+//                aMapLocation.getGpsAccuracyStatus();//获取GPS的当前状态
+//                // 获取定位时间
+//                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                Date date = new Date(aMapLocation.getTime());
+//                df.format(date);
+            } else {
+                // 定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
+                Log.e("定位失败","location Error, ErrCode:"
+                        + aMapLocation.getErrorCode() + ", errInfo:"
+                        + aMapLocation.getErrorInfo());
+            }
+
+
+        }
+    }
+
+
 
 
     /**
@@ -241,7 +366,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,S
             }
         };
         Timer timer = new Timer();
-        timer.schedule(timerTask, 10*1000);
+        timer.schedule(timerTask, Configs.recordTimes*1000);
     }
 
     // 第一次按键时间
@@ -274,6 +399,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,S
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
     }
 
+    /**
+     * 初始化录像SurfaceView
+     */
     private void initVideoViews() {
         mSurfaceView = (SurfaceView) findViewById(R.id.hideSurfaceView);
         SurfaceHolder holder = mSurfaceView.getHolder();// 取得holder
@@ -322,12 +450,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,S
         int rotation = getWindowManager().getDefaultDisplay().getRotation();
         int orientation = orientations.get(rotation);
         mCamera.setDisplayOrientation(orientation);
-    }
-
-    @Override
-    public void onPause() {
-        releaseCamera();
-        super.onPause();
     }
 
     /**
