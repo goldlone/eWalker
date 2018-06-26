@@ -241,15 +241,22 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if((System.currentTimeMillis() - firstClickUpVolume) < 500) {
-                    Configs.isHelping = true;
-                    Toast.makeText(this, "触发求救", Toast.LENGTH_SHORT).show();
-                    initLocation();
-                    startHideVideos();
+                    startHelp();
                 }
                 firstClickUpVolume = System.currentTimeMillis();
                 break;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * 触发求救
+     */
+    public void startHelp() {
+        Toast.makeText(this, "触发求救", Toast.LENGTH_SHORT).show();
+        Configs.isHelping = true;
+        initLocation();
+        startHideVideos();
     }
 
     // 声明AMapLocationClientOption对象
