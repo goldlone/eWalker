@@ -70,9 +70,15 @@
         <activity
             android:name=".view.activity.PhoneActivity"
             android:screenOrientation="landscape" />
+        <!-- 个人中心 -->
         <activity
             android:name=".view.activity.MineActivity"
             android:screenOrientation="landscape" />
+        <!-- 语音助手 -->
+        <activity
+            android:name=".view.activity.VoiceActivity"
+            android:screenOrientation="landscape" />
+
 
         <!-- 声明高德地图定位Service -->
         <service android:name="com.amap.api.location.APSService"></service>

@@ -182,7 +182,7 @@ public class MineActivity extends BaseActivity implements View.OnClickListener {
 
                 break;
             case R.id.ll_mine_update_password:
-                
+
                 break;
             case R.id.ll_mine_logout:
 

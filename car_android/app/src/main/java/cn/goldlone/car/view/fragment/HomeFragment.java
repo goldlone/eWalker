@@ -15,6 +15,7 @@ import cn.goldlone.car.R;
 import cn.goldlone.car.view.activity.HomeActivity;
 import cn.goldlone.car.view.activity.MineActivity;
 import cn.goldlone.car.view.activity.PhoneActivity;
+import cn.goldlone.car.view.activity.VoiceActivity;
 
 /**
  * @author : Created by CN on 2018/6/9 23:30
@@ -54,7 +55,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_home_voice:
-                Toast.makeText(getActivity(), "语音提示", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "语音提示", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), VoiceActivity.class));
                 break;
             case R.id.btn_home_phone:
 //                Toast.makeText(getActivity(), "打电话", Toast.LENGTH_SHORT).show();

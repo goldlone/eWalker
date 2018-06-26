@@ -27,11 +27,6 @@ public class MyApplication extends Application {
         sharedPreferences = getSharedPreferences("eWalker", MODE_PRIVATE);
         initConfigs();
 
-        // 初始化紧急联系人
-        String contact1 = "18435187057";
-//        String contact2 = "18435187057";
-        Configs.contacts.add(contact1);
-        setContacts(Configs.contacts);
     }
 
     /**
@@ -42,10 +37,20 @@ public class MyApplication extends Application {
         Configs.recordTimes = sharedPreferences.getInt(RECORD_TIMES, 10);
         Configs.intervalGeo = sharedPreferences.getInt(INTERVAL_GEO, 3);
         Configs.contacts = sharedPreferences.getStringSet(CONTACTS, new HashSet<String>());
+        if(Configs.contacts == null)
+            Configs.contacts = new HashSet<>();
 
         Log.e(USER_ID, Configs.userId);
         Log.e(RECORD_TIMES, ""+Configs.recordTimes);
         Log.e(INTERVAL_GEO, ""+Configs.intervalGeo);
+
+        // 初始化紧急联系人
+        String contact1 = "18435187057";
+//        String contact2 = "18435187057";
+        Configs.contacts.add(contact1);
+        setContacts(Configs.contacts);
+        for(String str: Configs.contacts)
+            System.out.println(str);
     }
 
     /**
@@ -89,7 +94,6 @@ public class MyApplication extends Application {
      * @param contacts
      */
     public static void setContacts(Set<String> contacts) {
-        Configs.contacts = null;
         editor = sharedPreferences.edit();
         editor.putStringSet(CONTACTS, contacts);
         editor.apply();
