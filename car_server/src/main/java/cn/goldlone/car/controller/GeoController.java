@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GeoController extends BaseController {
 
-    private int times = 0;
+    boolean times = false;
 
     @Autowired
     private GeoService gs;
@@ -35,8 +35,9 @@ public class GeoController extends BaseController {
                                  String longitude,
                                  String address,
                                  String time) {
-
-        GeoInfo info = new GeoInfo(userId, Double.parseDouble(latitude), Double.parseDouble(longitude), address, time);
+        System.out.println(userId+" "+latitude+" "+longitude+" "+time+" "+address);
+        System.out.println("*********************\n");
+        GeoInfo info = new GeoInfo(userId, Double.parseDouble(latitude), Double.parseDouble(longitude), address, String.valueOf(System.currentTimeMillis()));
         gs.receiveGeoInfo(info);
     }
 
@@ -47,18 +48,24 @@ public class GeoController extends BaseController {
      */
     @GetMapping("/geo/location/recently")
     public Result getRecentlyLocation(String userId) {
-        times++;
-        System.out.println(times);
         System.out.println("用户ID："+userId);
-//        if(times%2==0)
-//            return ResultUtils.success(new GeoInfo("18435187057", 37.8002, 112.588, "山西省太原市小店区书海路92号靠近山西大学", "1529925931061"), "成功");
-//        return ResultUtils.success(new GeoInfo("18435187057", 37.8102, 112.598, "山西省太原市小店区书海路92号靠近山西大学", "1529925931061"), "成功");
         GeoInfo info = gs.getRecentlyLocation(userId);
+        System.out.println(info);
         if(info == null) {
             return ResultUtils.error(ResultUtils.RESULT_EMPTY, "查询结果为空");
         } else {
-            return ResultUtils.success(info, "获取成功");
+            if(System.currentTimeMillis()-Long.parseLong(info.getTime()) < 20000) {
+                return ResultUtils.success(info, "获取成功");
+            } else
+                return ResultUtils.error(ResultUtils.NOT_NOW_LOCATION, "未启动APP或未处于求救状态，无法获取实时位置");
         }
+//        if(times) {
+//            times = false;
+//            return ResultUtils.success(new GeoInfo(userId, 37.8002, 112.588, "山西省太原市小店区书海路92号靠近山西大学", "1529925931061"), "");
+//        } else {
+//            times = true;
+//            return ResultUtils.success(new GeoInfo(userId, 37.7974, 112.591, "山西省太原市小店区俊良路654号靠近山西大学管理科学与工程研究所", "1529980107496"), "");
+//        }
     }
 
 }

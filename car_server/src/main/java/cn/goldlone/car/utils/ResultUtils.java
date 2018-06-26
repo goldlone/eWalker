@@ -12,6 +12,8 @@ public class ResultUtils {
     // 失败状态码
     // 无结果
     public static final int RESULT_EMPTY = 2001;
+    // 无实时位置
+    public static final int NOT_NOW_LOCATION = 2002;
     // 解析JSON失败
     public static final int JSON_ANALYZE_FAIL = 2003;
 

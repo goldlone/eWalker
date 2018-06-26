@@ -42,6 +42,7 @@ import java.util.TimerTask;
 import cn.goldlone.car.Configs;
 import cn.goldlone.car.R;
 import cn.goldlone.car.model.GeoInfo;
+import cn.goldlone.car.utils.Contact;
 import cn.goldlone.car.utils.HttpUtils;
 import cn.goldlone.car.view.BaseActivity;
 import cn.goldlone.car.view.fragment.HealthFragment;
@@ -242,7 +243,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 if((System.currentTimeMillis() - firstClickUpVolume) < 500) {
                     Configs.isHelping = true;
                     Toast.makeText(this, "触发求救", Toast.LENGTH_SHORT).show();
-//                    initLocation();
+                    initLocation();
                     startHideVideos();
                 }
                 firstClickUpVolume = System.currentTimeMillis();
@@ -271,6 +272,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         mLocationClient.setLocationOption(mLocationOption);
         // 启动定位
         mLocationClient.startLocation();
+
+        // 发送查询实时汽车位置链接
+        String url = Configs.SERVER_IP+"geo.html?id="+Configs.userId;
+        for(String str: Configs.contacts) {
+//            new Contact(HomeActivity.this, str).sendSMS("【求救】查看汽车实时位置: "+url);
+            Log.e("URL", "【求救】查看汽车实时位置: "+url);
+        }
     }
 
     /**
@@ -302,6 +310,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         if(null != aMapLocation) {
+            // 当未处于求救状态时，停止发送位置信息
+            if(!Configs.isHelping) {
+                mLocationClient.stopLocation();
+                return;
+            }
             if(aMapLocation.getErrorCode() == 0) {
                 StringBuffer sb = new StringBuffer();
                 sb.append("纬度: ").append(aMapLocation.getLatitude());
@@ -367,7 +380,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 new Thread() {
                     @Override
                     public void run() {
-                        HttpUtils.sendHelpVideo(new File(videoFileName));
+                        // 上传视频录像
+                        String url = HttpUtils.sendHelpVideo(new File(videoFileName));
+                        // 发送求救视频下载链接
+//                        for(String str: Configs.contacts) {
+//                            new Contact(HomeActivity.this, str).sendSMS("求救录像: "+url);
+//                        }
                     }
                 }.start();
             }

@@ -36,7 +36,7 @@ public class HelpController extends BaseController {
             int len;
             while((len=inputStream.read(bytes)) != -1) {
                 fileOutputStream.write(bytes, 0, len);
-                System.out.println("write...");
+//                System.out.println("write...");
             }
         } catch (IOException e) {
             e.printStackTrace();

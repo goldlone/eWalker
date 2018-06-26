@@ -27,9 +27,25 @@
             });
         // 汽车标记
         var carMarker = null;
+        // 信息窗体
+        var infoWindow;
+        // 设置汽车标记
+        carMarker = new AMap.Marker({
+            // http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png
+            icon: "http://webapi.amap.com/images/car.png",
+            position: [116.397428, 39.90923]
+        });
+        carMarker.setOffset(new AMap.Pixel(-20, -13));
+        map.add(carMarker);
 
-        getRecentlyLocation();
-        updateCarMarker();
+        // 获取用户ID
+        var id = getQueryString("id");
+        if(id==null) {
+            alert("无法获取位置信息");
+        } else {
+            getRecentlyLocation();
+            updateCarMarker();
+        }
         
         // 定时更新地图标记
         function updateCarMarker() {
@@ -40,37 +56,93 @@
         function getRecentlyLocation() {
             $.ajax({
                 type: "GET",
-                url: "http://172.25.154.37:8080/car/geo/location/recently",
+                url: "http://192.168.1.104:8080/car/geo/location/recently",
                 contentType: "application/x-www-form-urlencoded",
                 data: {
-                    "userId": "18435187057"
+                    "userId": id
                 },
                 success: function(res) {
-                    // console.log(res);
+                    console.log(res);
                     // console.log(res.data);
-                    if(res.code == 1001) {
-                        // 更新地图中心点
-                        map.setCenter(new AMap.LngLat(res.data.longitude, res.data.latitude));
-                        // 清楚标记
-                        if(carMarker != null)
-                            map.remove(carMarker);
-                        // 设置汽车标记
-                        carMarker = new AMap.Marker({
-                            icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
-                            position: [res.data.longitude, res.data.latitude]
-                        });
-                        
-                        map.add(carMarker);
+                    switch (res.code) {
+                        case 1001:
+                             // 更新地图中心点
+                            map.setCenter(new AMap.LngLat(res.data.longitude, res.data.latitude));
+                            // 更新汽车标记
+                            carMarker.setPosition(new AMap.LngLat(res.data.longitude, res.data.latitude));
+                            // carMarker.setContent(res.data.address);
+                            // carMarker.setLabel(res.data.address);
+                            // carMarker.setTitle(res.data.address);
+                            // 设置label标签
+                            // carMarker.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
+                            //     offset: new AMap.Pixel(-50, -30),//修改label相对于maker的位置
+                            //     content: res.data.address
+                            // });
+
+                            //构建信息窗体中显示的内容
+                            var info = [];
+                            // info.push("<div><div><img style=\"float:left;\" src=\" http://webapi.amap.com/images/autonavi.png \"/></div> ");
+                            info.push("<div style=\"padding:0px 0px 0px 4px;\"><b>实时位置("+formatDate(parseInt(res.data.time))+")</b>");
+                            info.push(res.data.address+"</div></div>");
+                            infoWindow = new AMap.InfoWindow({
+                                content: info.join("<br/>")  //使用默认信息窗体框样式，显示信息内容
+                            });
+                            infoWindow.open(map, new AMap.LngLat(res.data.longitude, res.data.latitude));
+                            break;
+                        // case 2001:
+                        //     // 无结果
+                        //     // alert(res.msg);
+                        //     break; 
+                        // case 2002:
+                        //     // 无实时位置
+                        //     // alert(res.msg);
+                        //     console.log(res.msg);
+                        //     break;
+                        default:
+                            // alert(res.msg);
+                            console.log(res.msg);
+                            //构建信息窗体中显示的内容
+                            var info = [];
+                            // info.push("<div><div><img style=\"float:left;\" src=\" http://webapi.amap.com/images/autonavi.png \"/></div> ");
+                            info.push("<div style=\"padding:0px 0px 0px 4px;\"><b>获取实时位置失败</b>");
+                            info.push(res.msg+"</div></div>");
+                            infoWindow = new AMap.InfoWindow({
+                                content: info.join("<br/>")  //使用默认信息窗体框样式，显示信息内容
+                            });
+                            infoWindow.open(map, carMarker.getPosition());
+                            break;
                     }
                 },
                 error: function(res) {
                     console.log(res);
+                    // alert("网络故障");
+                    console.log("网络故障");
                 }
             });
         }
 
 
+        // 获取URL参数
+        function getQueryString(name) { 
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+            var r = window.location.search.substr(1).match(reg); 
+            if (r != null) 
+                return unescape(r[2]); 
+            return null; 
+        }
 
+        // 格式化时间戳
+        function formatDate(time) {
+            var now = new Date(time);
+            var year = now.getFullYear(),
+                month = now.getMonth() + 1,
+                date = now.getDate(),
+                hour = now.getHours(),
+                minute = now.getMinutes(),
+                second = now.getSeconds();
+        
+        　　return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
+        }
     </script>
 </body>
 </html>

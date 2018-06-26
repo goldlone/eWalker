@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.goldlone.car.mapper.ShortUrlMapper">
+
+    <insert id="addMapping" parameterType="cn.goldlone.car.model.ShortUrlMapping">
+        insert
+        into ShortUrl(originUrl, shortUrl)
+        values (#{originUrl}, #{shortUrl});
+    </insert>
+
+
+    <select id="selectMapping" parameterType="string" resultType="cn.goldlone.car.model.ShortUrlMapping">
+        select originUrl, shortUrl
+        from ShortUrl
+        where shortUrl=#{shortUrl};
+    </select>
+
+
+</mapper>
