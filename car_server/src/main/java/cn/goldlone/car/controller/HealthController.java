@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthController extends BaseController {
 
     /**
-     *
+     * 血压检测
      * @param username
      * @param highValue
      * @param lowValue

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import cn.goldlone.car.R;
 import cn.goldlone.car.view.activity.HomeActivity;
+import cn.goldlone.car.view.activity.MineActivity;
 import cn.goldlone.car.view.activity.PhoneActivity;
 
 /**
@@ -64,7 +65,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 ((HomeActivity)getActivity()).startHelp();
                 break;
             case R.id.btn_home_person:
-                Toast.makeText(getActivity(), "个人中心", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "个人中心", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), MineActivity.class));
                 break;
         }
     }

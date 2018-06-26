@@ -20,7 +20,11 @@ public class HelpController extends BaseController {
     @Value("${ServerIP}")
     private String SERVER_IP;
 
-
+    /**
+     * 上传求救视频
+     * @param request
+     * @return
+     */
     @PostMapping("/help/video/upload")
     public String receiveVideo(HttpServletRequest request) {
         long currentTime = System.currentTimeMillis();

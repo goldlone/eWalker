@@ -1,5 +1,6 @@
 videoFilePath: "./videos/"
-ServerIP: "http://192.168.1.104:8080/car/"
+#ServerIP: "http://192.168.1.104:8080/car/"
+ServerIP: "http://172.25.154.37:8080/car/"
 
 server:
   servlet:
