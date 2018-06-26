@@ -40,7 +40,9 @@ dependencies {
     implementation files('libs/AMap3DMap_6.2.0_AMapNavi_6.1.0_AMapSearch_6.1.0_AMapLocation_4.0.1_20180427.jar')
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     // https://mvnrepository.com/artifact/com.squareup.okio/okio
-    implementation group: 'com.squareup.okio', name: 'okio', version: '1.14.0'
+    implementation 'com.squareup.okio:okio:1.14.0'
     // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
-    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.10.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation files('libs/Msc.jar')
+    implementation files('libs/Sunflower.jar')
 }
