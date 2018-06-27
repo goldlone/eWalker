@@ -1,6 +1,8 @@
 package cn.goldlone.car.view.activity;
 
 import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
@@ -11,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
@@ -63,6 +66,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private LinearLayout nav_navigator;
     private LinearLayout nav_music;
 
+    private AlertDialog tipsContactDialog = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +79,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 //        initFragment3();
         activeTitle(1);
 
-//        initLocation();
+        checkHelpContact();
     }
 
     @Override
@@ -232,6 +237,33 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     /**
+     * 检查紧急联系人
+     */
+    public boolean checkHelpContact() {
+        if(Configs.contacts.size()==0) {
+            tipsContactDialog = new AlertDialog.Builder(this)
+                    .setTitle("请设置紧急联系人")
+                    .setView(R.layout.dialog_tip_contact)
+                    .setPositiveButton("前往", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startActivity(new Intent(HomeActivity.this, ContactActivity.class));
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    })
+                    .create();
+            tipsContactDialog.show();
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * 监听按键
      * @param keyCode 按键码
      * @param event 按键事件
@@ -242,6 +274,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if((System.currentTimeMillis() - firstClickUpVolume) < 500) {
+                    if(!checkHelpContact()) {
+                        return super.onKeyDown(keyCode, event);
+                    }
                     startHelp();
                 }
                 firstClickUpVolume = System.currentTimeMillis();
@@ -284,7 +319,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         // 发送查询实时汽车位置链接
         String url = Configs.SERVER_IP+"geo.html?id="+Configs.userId;
         for(HelpContact c: Configs.contacts) {
-//            new Contact(HomeActivity.this, c.getPhone()).sendSMS("【求救】查看汽车实时位置: "+url);
+            new Contact(HomeActivity.this, c.getPhone()).sendSMS("【求救】查看汽车实时位置: "+url);
             Log.e("URL", "【求救】查看汽车实时位置: "+url);
         }
     }
@@ -391,9 +426,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         // 上传视频录像
                         String url = HttpUtils.sendHelpVideo(new File(videoFileName));
                         // 发送求救视频下载链接
-//                        for(String str: Configs.contacts) {
-//                            new HelpContact(HomeActivity.this, str).sendSMS("求救录像: "+url);
-//                        }
+                        for(HelpContact contact: Configs.contacts) {
+                            new Contact(HomeActivity.this, contact.getPhone()).sendSMS("求救录像: "+url);
+                        }
                     }
                 }.start();
             }
