@@ -42,6 +42,7 @@ import java.util.TimerTask;
 import cn.goldlone.car.Configs;
 import cn.goldlone.car.R;
 import cn.goldlone.car.model.GeoInfo;
+import cn.goldlone.car.model.HelpContact;
 import cn.goldlone.car.utils.Contact;
 import cn.goldlone.car.utils.HttpUtils;
 import cn.goldlone.car.view.BaseActivity;
@@ -282,8 +283,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
         // 发送查询实时汽车位置链接
         String url = Configs.SERVER_IP+"geo.html?id="+Configs.userId;
-        for(String str: Configs.contacts) {
-//            new Contact(HomeActivity.this, str).sendSMS("【求救】查看汽车实时位置: "+url);
+        for(HelpContact c: Configs.contacts) {
+//            new Contact(HomeActivity.this, c.getPhone()).sendSMS("【求救】查看汽车实时位置: "+url);
             Log.e("URL", "【求救】查看汽车实时位置: "+url);
         }
     }
@@ -391,7 +392,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                         String url = HttpUtils.sendHelpVideo(new File(videoFileName));
                         // 发送求救视频下载链接
 //                        for(String str: Configs.contacts) {
-//                            new Contact(HomeActivity.this, str).sendSMS("求救录像: "+url);
+//                            new HelpContact(HomeActivity.this, str).sendSMS("求救录像: "+url);
 //                        }
                     }
                 }.start();
@@ -593,7 +594,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
                                int height) {
-        Log.e("TAG", "surfaceChanged.....");
+//        Log.e("TAG", "surfaceChanged.....");
         // 将holder，这个holder为开始在onCreate里面取得的holder，将它赋给mSurfaceHolder
         mSurfaceHolder = holder;
         if (mCamera == null) {
@@ -612,14 +613,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        Log.e("TAG", "surfaceCreated.....");
+//        Log.e("TAG", "surfaceCreated.....");
         // 将holder，这个holder为开始在onCreate里面取得的holder，将它赋给mSurfaceHolder
         mSurfaceHolder = holder;
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.e("TAG", "surfaceDestroyed.....");
+//        Log.e("TAG", "surfaceDestroyed.....");
         // surfaceDestroyed的时候同时对象设置为null
         if (isRecording && mCamera != null) {
             mCamera.lock();

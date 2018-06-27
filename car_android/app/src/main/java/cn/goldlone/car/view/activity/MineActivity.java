@@ -1,11 +1,13 @@
 package cn.goldlone.car.view.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -30,7 +32,9 @@ public class MineActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout ll_mine_logout;
     private LinearLayout ll_mine_exit;
 
+    // 设置求救录像时长对话框
     private AlertDialog videoLengthDialog = null;
+    // 设置发送位置信息的时间间隔对话框
     private AlertDialog locationIntervalDialog = null;
     private SeekBar seekBar = null;
     private TextView seekBarValue = null;
@@ -92,7 +96,7 @@ public class MineActivity extends BaseActivity implements View.OnClickListener {
                 Configs.isHelping = false;
                 break;
             case R.id.ll_mine_contacts:
-
+                startActivity(new Intent(this, ContactActivity.class));
                 break;
             case R.id.ll_mine_video_length:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);

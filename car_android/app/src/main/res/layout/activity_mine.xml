@@ -256,7 +256,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:contentDescription="@string/app_name"
-                        android:src="@mipmap/home_active" />
+                        android:src="@mipmap/usually" />
 
                     <TextView
                         android:id="@+id/tv_mine_manager_family"
@@ -291,7 +291,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/app_name"
-                        android:src="@mipmap/home_active" />
+                        android:src="@mipmap/update_password" />
 
                     <TextView
                         android:id="@+id/tv_mine_update_password"
@@ -326,7 +326,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/app_name"
-                        android:src="@mipmap/home_active" />
+                        android:src="@mipmap/logout" />
 
                     <TextView
                         android:id="@+id/tv_mine_logout"
@@ -361,7 +361,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/app_name"
-                        android:src="@mipmap/home_active" />
+                        android:src="@mipmap/exit" />
 
                     <TextView
                         android:id="@+id/tv_mine_exit"

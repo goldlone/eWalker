@@ -56,6 +56,10 @@
         <activity
             android:name=".view.activity.HomeActivity"
             android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <!-- 测试导航 -->
@@ -73,13 +77,11 @@
         <!-- 语音助手 -->
         <activity
             android:name=".view.activity.VoiceActivity"
-            android:screenOrientation="landscape">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="landscape" />
+        <!-- 设置紧急联系人 -->
+        <activity
+            android:name=".view.activity.ContactActivity"
+            android:screenOrientation="landscape" />
 
 
         <!-- 声明高德地图定位Service -->

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iflytek.cloud.ErrorCode;
@@ -41,7 +42,7 @@ public class VoiceActivity extends BaseActivity implements View.OnClickListener{
     private FloatingActionButton fb_wake_voice_assistant;
 
     private final String TAG = "语音助手";
-    private EditText et_input;
+    private TextView et_input;
 
     // 用HashMap存储听写结果
     private HashMap<String, String> mIatResults = new LinkedHashMap<String , String>();
@@ -73,7 +74,7 @@ public class VoiceActivity extends BaseActivity implements View.OnClickListener{
         fb_wake_voice_assistant = (FloatingActionButton) findViewById(R.id.fb_wake_voice_assistant);
         fb_wake_voice_assistant.setOnClickListener(this);
 
-        et_input = (EditText) findViewById(R.id.et_input );
+        et_input = (TextView) findViewById(R.id.et_input);
     }
 
     /**
@@ -284,7 +285,6 @@ public class VoiceActivity extends BaseActivity implements View.OnClickListener{
             // 最终的识别结果
 //            resultBuffer.toString();
             et_input.setText(resultBuffer.toString());// 设置输入框的文本
-            et_input.setSelection(et_input.length()) ;//把光标定位末尾
         }
 
         @Override
