@@ -113,7 +113,7 @@ public class MineActivity extends BaseActivity implements View.OnClickListener {
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(MineActivity.this, "已取消", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MineActivity.this, "已取消", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.create();
@@ -155,7 +155,7 @@ public class MineActivity extends BaseActivity implements View.OnClickListener {
                 builder2.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(MineActivity.this, "已取消", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MineActivity.this, "已取消", Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder2.create();

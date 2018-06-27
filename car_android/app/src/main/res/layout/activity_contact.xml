@@ -46,8 +46,8 @@
         app:backgroundTint="@color/titleActive"
         app:fabSize="auto"
         app:rippleColor="#a6a6a6"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true" />
 
 </RelativeLayout>

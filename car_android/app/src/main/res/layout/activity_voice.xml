@@ -48,11 +48,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20.0dip"
-        android:src="@mipmap/carapp"
+        android:src="@mipmap/voice_white"
         app:backgroundTint="@color/titleActive"
         app:fabSize="auto"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        app:rippleColor="#a6a6a6" />
+        app:rippleColor="#a6a6a6"
+        android:scaleType="center"/>
 
 </RelativeLayout>
