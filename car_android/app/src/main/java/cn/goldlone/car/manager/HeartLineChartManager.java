@@ -37,6 +37,8 @@ public class HeartLineChartManager {
         this.lineChart = mLineChart;
         leftAxis = lineChart.getAxisLeft();
         rightAxis = lineChart.getAxisRight();
+        leftAxis.setEnabled(false);
+        rightAxis.setEnabled(false);
         xAxis = lineChart.getXAxis();
         initLineChart();
         initLineDataSet(name, color);
@@ -60,8 +62,10 @@ public class HeartLineChartManager {
         lineChart.setDrawGridBackground(false);
         //显示边界
         lineChart.setDrawBorders(true);
+
         //折线图例 标签 设置
         Legend legend = lineChart.getLegend();
+        legend.setEnabled(false);
         legend.setForm(Legend.LegendForm.LINE);
         legend.setTextSize(11f);
         //显示位置
@@ -71,6 +75,7 @@ public class HeartLineChartManager {
         legend.setDrawInside(false);
 
         //X轴设置显示位置在底部
+        xAxis.setEnabled(false);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1f);
         xAxis.setLabelCount(10);
@@ -106,6 +111,7 @@ public class HeartLineChartManager {
         lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         lineDataSet.setValueTextSize(10f);
         lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        lineDataSet.setDrawValues(false); // 不显示数据
         //添加一个空的 LineData
         lineData = new LineData();
         lineChart.setData(lineData);
@@ -156,7 +162,7 @@ public class HeartLineChartManager {
         }
         lineChart.setData(lineData);
         //避免集合数据过多，及时清空（做这样的处理，并不知道有没有用，但还是这样做了）
-        if (timeList.size() > 11) {
+        if (timeList.size() > 31) {
             timeList.clear();
         }
 
@@ -168,7 +174,7 @@ public class HeartLineChartManager {
         lineData.notifyDataChanged();
         lineChart.notifyDataSetChanged();
         //设置在曲线图中显示的最大数量
-        lineChart.setVisibleXRangeMaximum(10);
+        lineChart.setVisibleXRangeMaximum(30);
         //移到某个位置
         lineChart.moveViewToX(lineData.getEntryCount() - 5);
     }
@@ -184,7 +190,7 @@ public class HeartLineChartManager {
             lineData = new LineData(lineDataSets);
             lineChart.setData(lineData);
         }
-        if (timeList.size() > 11) {
+        if (timeList.size() > 21) {
             timeList.clear();
         }
         timeList.add(df.format(System.currentTimeMillis()));
@@ -263,6 +269,7 @@ public class HeartLineChartManager {
     public void setDescription(String str) {
         Description description = new Description();
         description.setText(str);
+//        description.setText("");
         lineChart.setDescription(description);
         lineChart.invalidate();
     }

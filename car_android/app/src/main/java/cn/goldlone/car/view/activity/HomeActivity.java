@@ -74,7 +74,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         setContentView(R.layout.activity_main);
         Accessibility();
         initView();
-        initFragment1();
+//        initFragment1();
 //        initFragment2();
 //        initFragment3();
         activeTitle(1);

@@ -56,10 +56,6 @@
         <activity
             android:name=".view.activity.HomeActivity"
             android:screenOrientation="landscape">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <!-- 测试导航 -->
@@ -82,6 +78,16 @@
         <activity
             android:name=".view.activity.ContactActivity"
             android:screenOrientation="landscape" />
+        <!-- 登录 -->
+        <activity
+            android:name=".view.activity.LoginActivity"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
 
 
         <!-- 声明高德地图定位Service -->
