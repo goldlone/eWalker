@@ -44,6 +44,7 @@ public class HealthFragment extends Fragment {
     private TextView tv_health_pulse;
     private TextView tv_health_exam_result;
     private StringBuffer heathResultStrBuffer;
+    private Timer timer;
 
     @Nullable
     @Override
@@ -82,28 +83,32 @@ public class HealthFragment extends Fragment {
                         .append(tv_health_pulse.getText())
                         .append("mmHg，血压偏高，需警惕。请养成并坚持健康的生活方式，经常监测血压，以预防高血压的发生");
                 speakUtils.speakText(heathResultStrBuffer.toString());
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        tv_health_exam_result.setText(heathResultStrBuffer.toString());
-                    }
-                });
+                if(getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            tv_health_exam_result.setText(heathResultStrBuffer.toString());
+                        }
+                    });
+                }
             }
         };
         // 更新健康信息数值
         TimerTask timerTask2 = new TimerTask() {
             @Override
             public void run() {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        tv_health_heart.setText("82");
-                        tv_health_pulse.setText("113/96");
-                    }
-                });
+                if(getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            tv_health_heart.setText("82");
+                            tv_health_pulse.setText("113/96");
+                        }
+                    });
+                }
             }
         };
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(timerTask1, 10*1000);
         timer.schedule(timerTask2, 5*1000);
     }
@@ -172,6 +177,7 @@ public class HealthFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        timer.cancel();
         if(loop1!=null) {
             loop1.interrupt();
         }
@@ -181,6 +187,7 @@ public class HealthFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        timer.cancel();
         if(loop1!=null) {
             loop1.interrupt();
             loop1 = null;
