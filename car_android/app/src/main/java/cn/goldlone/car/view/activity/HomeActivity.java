@@ -81,6 +81,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
 //        initFragment3();
         activeTitle(1);
 
+//        Configs.isHelping = true;
+//        initLocation();
+//        startHelp();
+
         checkHelpContact();
     }
 
@@ -327,7 +331,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         // 启动定位
         mLocationClient.startLocation();
 
-        // 发送查询实时汽车位置链接
+//        // 发送查询实时汽车位置链接
         String url = Configs.SERVER_IP+"geo.html?id="+Configs.userId;
         for(HelpContact c: Configs.contacts) {
             new Contact(HomeActivity.this, c.getPhone()).sendSMS("【求救】查看汽车实时位置: "+url);
@@ -355,8 +359,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         mLocationOption.setLocationCacheEnable(false);
     }
 
-
-//    private Thread helpThread;
     /**
      * 定位监听器
      * @param aMapLocation

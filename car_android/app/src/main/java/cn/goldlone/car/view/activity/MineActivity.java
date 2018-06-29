@@ -30,7 +30,7 @@ public class MineActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout ll_mine_usually_location;
     private LinearLayout ll_mine_update_password;
     private LinearLayout ll_mine_logout;
-    private LinearLayout ll_mine_exit;
+//    private LinearLayout ll_mine_exit;
 
     // 设置求救录像时长对话框
     private AlertDialog videoLengthDialog = null;
@@ -69,7 +69,7 @@ public class MineActivity extends BaseActivity implements View.OnClickListener {
         ll_mine_usually_location = (LinearLayout) findViewById(R.id.ll_mine_usually_location);
         ll_mine_update_password = (LinearLayout) findViewById(R.id.ll_mine_update_password);
         ll_mine_logout = (LinearLayout) findViewById(R.id.ll_mine_logout);
-        ll_mine_exit = (LinearLayout) findViewById(R.id.ll_mine_exit);
+//        ll_mine_exit = (LinearLayout) findViewById(R.id.ll_mine_exit);
 
         ll_mine_help_status.setOnClickListener(this);
         ll_mine_contacts.setOnClickListener(this);
@@ -78,7 +78,7 @@ public class MineActivity extends BaseActivity implements View.OnClickListener {
         ll_mine_usually_location.setOnClickListener(this);
         ll_mine_update_password.setOnClickListener(this);
         ll_mine_logout.setOnClickListener(this);
-        ll_mine_exit.setOnClickListener(this);
+//        ll_mine_exit.setOnClickListener(this);
 
         if(!Configs.isHelping) {
             ll_mine_help_status.setVisibility(View.GONE);
@@ -183,18 +183,22 @@ public class MineActivity extends BaseActivity implements View.OnClickListener {
                 });
                 break;
             case R.id.ll_mine_usually_location:
-
+                Toast.makeText(this, "开发小哥正在努力中...", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_mine_update_password:
-
+                Toast.makeText(this, "开发小哥正在努力中...", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ll_mine_logout:
-
-                break;
-            case R.id.ll_mine_exit:
+                MyApplication.setLoginStatus(false);
+                System.out.println(MyApplication.getLoginStatus());
                 finish();
-                System.exit(0);
+                Intent intent = new Intent(MineActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
                 break;
+//            case R.id.ll_mine_exit:
+//                System.exit(0);
+//                break;
         }
     }
 }

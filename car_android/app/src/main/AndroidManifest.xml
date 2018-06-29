@@ -53,25 +53,25 @@
         <activity
             android:name=".view.activity.SplashActivity"
             android:screenOrientation="landscape">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <!-- 登录 -->
         <activity
             android:name=".view.activity.LoginActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="stateHidden|adjustResize">
 
         </activity>
         <!-- 注册 -->
         <activity
             android:name=".view.activity.RegisterActivity"
             android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="stateHidden|adjustResize">
 
         </activity>
 

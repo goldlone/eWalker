@@ -26,12 +26,16 @@ public class SplashActivity extends BaseActivity {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                finish();
+                Intent intent = null;
+                System.out.println(MyApplication.getLoginStatus());
                 if(MyApplication.getLoginStatus()) {
-                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                    intent = new Intent(SplashActivity.this, HomeActivity.class);
                 } else {
-                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    intent = new Intent(SplashActivity.this, LoginActivity.class);
                 }
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             }
         };
         timer.schedule(timerTask, 1000);

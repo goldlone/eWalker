@@ -349,31 +349,31 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/item_anti_theft"
-                    android:orientation="horizontal"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp">
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:background="@drawable/item_anti_theft"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:paddingBottom="10dp"-->
+                    <!--android:paddingTop="10dp">-->
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="@string/app_name"
-                        android:src="@mipmap/exit" />
+                    <!--<ImageView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:contentDescription="@string/app_name"-->
+                        <!--android:src="@mipmap/exit" />-->
 
-                    <TextView
-                        android:id="@+id/tv_mine_exit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginStart="16dp"
-                        android:text="退出应用"
-                        android:textColor="#000"
-                        android:textSize="@dimen/app_text_size" />
-                </LinearLayout>
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_mine_exit"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:layout_marginLeft="16dp"-->
+                        <!--android:layout_marginStart="16dp"-->
+                        <!--android:text="退出应用"-->
+                        <!--android:textColor="#000"-->
+                        <!--android:textSize="@dimen/app_text_size" />-->
+                <!--</LinearLayout>-->
             </LinearLayout>
 
 
