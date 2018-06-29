@@ -66,6 +66,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     private LinearLayout nav_navigator;
     private LinearLayout nav_music;
 
+    private boolean isMusic = false;
+
     private AlertDialog tipsContactDialog = null;
 
     @Override
@@ -224,11 +226,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         }
         // 音乐
         if(index == 4) {
+            isMusic = true;
             ImageView imageView = (ImageView) nav_music.getChildAt(0);
             imageView.setImageResource(R.mipmap.music_active);
             TextView textView = (TextView) nav_music.getChildAt(1);
             textView.setTextColor(getResources().getColor(R.color.titleActive));
         } else {
+            isMusic = false;
             ImageView imageView = (ImageView) nav_music.getChildAt(0);
             imageView.setImageResource(R.mipmap.music);
             TextView textView = (TextView) nav_music.getChildAt(1);
@@ -282,7 +286,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 firstClickUpVolume = System.currentTimeMillis();
                 break;
             case KeyEvent.KEYCODE_BACK:
-                finish();
+                if(isMusic && musicFragment.onKeyDown(keyCode, event)) {
+                    // 网页回退
+                } else {
+                    finish();
+                }
                 break;
         }
         return super.onKeyDown(keyCode, event);
