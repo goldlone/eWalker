@@ -74,7 +74,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
         setContentView(R.layout.activity_main);
         Accessibility();
         initView();
-//        initFragment1();
+        initFragment1();
 //        initFragment2();
 //        initFragment3();
         activeTitle(1);
@@ -280,6 +280,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                     startHelp();
                 }
                 firstClickUpVolume = System.currentTimeMillis();
+                break;
+            case KeyEvent.KEYCODE_BACK:
+                finish();
                 break;
         }
         return super.onKeyDown(keyCode, event);

@@ -18,7 +18,7 @@
             android:background="@drawable/edit"
             android:id="@+id/phoneLayout"
             android:layout_marginLeft="50dp"
-            android:layout_above="@+id/passwordLayout"
+            android:layout_above="@+id/passwordLayout0"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="15dp">
 
@@ -30,7 +30,7 @@
                 android:layout_marginLeft="10dp"/>
 
             <EditText
-                android:id="@+id/et_login_phone"
+                android:id="@+id/et_register_phone"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="60dp"
@@ -50,9 +50,9 @@
             android:layout_height="60dp"
             android:orientation="horizontal"
             android:background="@drawable/edit"
-            android:id="@+id/passwordLayout"
+            android:id="@+id/passwordLayout0"
             android:layout_marginLeft="50dp"
-            android:layout_above="@+id/btn_login_login"
+            android:layout_above="@+id/passwordLayout1"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="15dp">
 
@@ -67,7 +67,7 @@
                 android:layout_alignParentLeft="true" />
 
             <EditText
-                android:id="@+id/et_login_password"
+                android:id="@+id/et_register_password"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="60dp"
@@ -81,47 +81,84 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:background="@drawable/edit"
+            android:id="@+id/passwordLayout1"
+            android:layout_marginLeft="50dp"
+            android:layout_above="@+id/btn_register_login"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/password"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="8dp"
+                android:layout_alignParentLeft="true" />
+
+            <EditText
+                android:id="@+id/et_register_repeat_password"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="60dp"
+                android:layout_centerVertical="true"
+                android:inputType="textPassword"
+                android:textColor="#f0f0f0"
+                android:hint="确认密码"
+                android:textColorHint="#f0f0f0"
+                android:background="@null"
+                android:textCursorDrawable="@null" />
+
+        </RelativeLayout>
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:id="@+id/btn_login_login"
+            android:id="@+id/btn_register_login"
             android:background="@drawable/login_btn_shape"
-            android:text="登录"
+            android:text="注册"
             android:textColor="#fff"
             android:textSize="25sp"
             android:layout_marginLeft="200dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="20dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_login_forget"
-            android:text="忘记密码？"
-            android:textSize="15sp"
-            android:textColor="#fff"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="20dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
-            />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/tv_login_forget"-->
+            <!--android:text="忘记密码？"-->
+            <!--android:textSize="15sp"-->
+            <!--android:textColor="#fff"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_marginBottom="20dp"-->
+            <!--/>-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_login_register"
-            android:text="注册"
-            android:textSize="15sp"
-            android:textColor="#fff"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="25dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
-            />
 
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_register_back"
+        android:text="返回登录"
+        android:textSize="15sp"
+        android:textColor="#fff"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"/>
 
 
 </RelativeLayout>

@@ -135,4 +135,15 @@ public class MyApplication extends Application {
         aCache.put(CONTACTS, jsonArray);
     }
 
+    public static boolean getLoginStatus() {
+        Object obj = aCache.getAsObject("loginStatus");
+        if(obj == null)
+            return false;
+        return (Boolean) obj;
+    }
+
+    public static void setLoginStatus(boolean status) {
+        aCache.put("loginStatus", status);
+    }
+
 }

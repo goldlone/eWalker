@@ -1,6 +1,7 @@
 package cn.goldlone.car.controller;
 
 import cn.goldlone.car.model.Result;
+import cn.goldlone.car.utils.ResultUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class BaseController {
 
     @ExceptionHandler(Exception.class)
-    public Result handleException() {
-        return null;
+    public Result handleException(Exception e) {
+        return ResultUtils.error(ResultUtils.EXCEPTION, "【异常】"+e.getMessage());
     }
 
 }

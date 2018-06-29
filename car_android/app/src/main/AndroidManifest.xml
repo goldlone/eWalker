@@ -51,6 +51,31 @@
             android:name="com.amap.api.v2.apikey"
             android:value="65087ed53fe6e498589125595de7733f" />
 
+        <activity
+            android:name=".view.activity.SplashActivity"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <!-- 登录 -->
+        <activity
+            android:name=".view.activity.LoginActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustResize">
+
+        </activity>
+        <!-- 注册 -->
+        <activity
+            android:name=".view.activity.RegisterActivity"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustResize">
+
+        </activity>
+
 
         <!-- 首页 -->
         <activity
@@ -78,17 +103,6 @@
         <activity
             android:name=".view.activity.ContactActivity"
             android:screenOrientation="landscape" />
-        <!-- 登录 -->
-        <activity
-            android:name=".view.activity.LoginActivity"
-            android:screenOrientation="landscape">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
-
 
         <!-- 声明高德地图定位Service -->
         <service android:name="com.amap.api.location.APSService"></service>

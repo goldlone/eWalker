@@ -1,23 +1,21 @@
 package cn.goldlone.car.view.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import cn.goldlone.car.Configs;
@@ -33,71 +31,74 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * @author : Created by CN on 2018/6/28 17:16
+ * @author : Created by CN on 2018/6/28 17:19
  */
-public class LoginActivity extends BaseActivity implements View.OnClickListener {
+public class RegisterActivity extends BaseActivity implements View.OnClickListener {
 
-    private EditText et_login_phone;
-    private EditText et_login_password;
-    private Button btn_login_login;
-    private TextView tv_login_forget;
-    private TextView tv_login_register;
+    private EditText et_register_phone;
+    private EditText et_register_password;
+    private EditText et_register_repeat_password;
+    private Button btn_register_login;
+    private TextView tv_register_back;
 
     private String phone;
     private String password;
+    private String repeatPassword;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
+
         initView();
     }
 
     private void initView() {
-        et_login_phone = (EditText) findViewById(R.id.et_login_phone);
-        et_login_password = (EditText) findViewById(R.id.et_login_password);
-        btn_login_login = (Button) findViewById(R.id.btn_login_login);
-        tv_login_forget = (TextView) findViewById(R.id.tv_login_forget);
-        tv_login_register = (TextView) findViewById(R.id.tv_login_register);
+        et_register_phone = (EditText) findViewById(R.id.et_register_phone);
+        et_register_password = (EditText) findViewById(R.id.et_register_password);
+        et_register_repeat_password = (EditText) findViewById(R.id.et_register_repeat_password);
+        btn_register_login = (Button) findViewById(R.id.btn_register_login);
+        tv_register_back = (TextView) findViewById(R.id.tv_register_back);
 
-        btn_login_login.setOnClickListener(this);
-        tv_login_forget.setOnClickListener(this);
-        tv_login_register.setOnClickListener(this);
+        btn_register_login.setOnClickListener(this);
+        tv_register_back.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_login_login:
-                // 校验手机号和密码的有效性
-                phone = et_login_phone.getText().toString();
-                password = et_login_password.getText().toString();
-
-                Log.e("TAG", phone);
-                Log.e("TAG", password);
+            case R.id.btn_register_login:
+                phone = et_register_phone.getText().toString();
+                password = et_register_password.getText().toString();
+                repeatPassword = et_register_repeat_password.getText().toString();
 
                 if("".equals(phone)) {
-                    Toast.makeText(this, "请输入有效的手机号", Toast.LENGTH_SHORT).show();
+                    showTips("手机号不可为空");
                     return;
                 }
-                if("".equals(password)) {
-                    Toast.makeText(this, "请输入有效的密码", Toast.LENGTH_SHORT).show();
+                if("".equals(password) || "".equals(repeatPassword)) {
+                    showTips("密码不可为空");
                     return;
                 }
-                // 登录验证
-                actionLogin();
+                if(!password.equals(repeatPassword)) {
+                    showTips("两次输入密码的不一致");
+                    return;
+                }
+                // 进行注册
+                actionRegister();
                 break;
-            case R.id.tv_login_forget:
-                Toast.makeText(this, "开发小哥正在努力中...", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.tv_login_register:
-//                Toast.makeText(this, "开发小哥正在努力中...", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, RegisterActivity.class));
+            case R.id.tv_register_back:
+                finish();
                 break;
         }
     }
 
-    public void actionLogin() {
+    private void showTips(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+
+    public void actionRegister() {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(3, TimeUnit.SECONDS)
                 .writeTimeout(3, TimeUnit.SECONDS)
@@ -108,7 +109,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 .add("password", EncryptUtils.sha256Encrypt(password))
                 .build();
         final Request request = new Request.Builder()
-                .url(Configs.SERVER_IP+"/user/login")
+                .url(Configs.SERVER_IP+"/user/add")
                 .post(formBody)
                 .build();
         Call call = okHttpClient.newCall(request);
@@ -125,14 +126,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         JSONObject json = new JSONObject(jt);
                         int code = json.getInt("code");
                         if(code == 1001) {
-                            // 登录成功
+                            // 注册成功
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    MyApplication.setUserId(phone);
-                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                    showTips("注册成功");
                                     finish();
-                                    MyApplication.setLoginStatus(true);
                                 }
                             });
                         } else {
@@ -140,7 +139,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
@@ -148,11 +147,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
-
-
 }
