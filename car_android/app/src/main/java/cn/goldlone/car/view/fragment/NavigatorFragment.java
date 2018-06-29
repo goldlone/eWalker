@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
@@ -48,16 +49,18 @@ import cn.goldlone.car.R;
  */
 public class NavigatorFragment extends SupportMapFragment implements INaviInfoCallback, AMapNaviViewListener, AMapNaviListener {
     private View rootView;
-    private TextureMapView mMapView;
-    private AMap aMap = null;
+    private Button btn_navigator;
+//    private TextureMapView mMapView;
+//    private AMap aMap = null;
 
-    private AMapNaviView mAMapNaviView = null;
-    private AMapNavi mAMapNavi = null;
+//    private AMapNaviView mAMapNaviView = null;
+//    private AMapNavi mAMapNavi = null;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.test_nav_111, container, false);
+        rootView = inflater.inflate(R.layout.fragment_navigator, container, false);
+        btn_navigator = (Button) rootView.findViewById(R.id.btn_navigator);
 
 //        mMapView = (TextureMapView) rootView.findViewById(R.id.map);
 //        mMapView.onCreate(savedInstanceState);
@@ -71,22 +74,29 @@ public class NavigatorFragment extends SupportMapFragment implements INaviInfoCa
 //            initMap();
 //        }
 
+        btn_navigator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AmapNaviPage.getInstance().showRouteActivity(NavigatorFragment.this.getContext(), new AmapNaviParams(null), NavigatorFragment.this);
+            }
+        });
 
-//        AmapNaviPage.getInstance().showRouteActivity(getContext(), new AmapNaviParams(null), this);
+
+
 //        Poi start = new Poi("三元桥", new LatLng(39.96087,116.45798), "");
 //        /**终点传入的是北京站坐标,但是POI的ID "B000A83M61"对应的是北京西站，所以实际算路以北京西站作为终点**/
 //        Poi end = new Poi("北京站", new LatLng(39.904556, 116.427231), "B000A83M61");
 //        AmapNaviPage.getInstance().showRouteActivity(getContext(), new AmapNaviParams(start, null, end, AmapNaviType.DRIVER), this);
 
         //获取 AMapNaviView 实例
-        mAMapNaviView = (AMapNaviView) rootView.findViewById(R.id.navi_view);
-        mAMapNaviView.setAMapNaviViewListener(this);
-        mAMapNaviView.onCreate(savedInstanceState);
+//        mAMapNaviView = (AMapNaviView) rootView.findViewById(R.id.navi_view);
+//        mAMapNaviView.setAMapNaviViewListener(this);
+//        mAMapNaviView.onCreate(savedInstanceState);
 
         //获取AMapNavi实例
-        mAMapNavi = AMapNavi.getInstance(getActivity().getApplicationContext());
-        //添加监听回调，用于处理算路成功
-        mAMapNavi.addAMapNaviListener(this);
+//        mAMapNavi = AMapNavi.getInstance(getActivity().getApplicationContext());
+//        //添加监听回调，用于处理算路成功
+//        mAMapNavi.addAMapNaviListener(this);
 
 
         return rootView;
@@ -99,13 +109,13 @@ public class NavigatorFragment extends SupportMapFragment implements INaviInfoCa
     }
 
     private void initMap() {
-        MyLocationStyle myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_MAP_ROTATE);
-        myLocationStyle.interval(2000); //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
-        aMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
-        //aMap.getUiSettings().setMyLocationButtonEnabled(true);设置默认定位按钮是否显示，非必需设置。
-        aMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
-        aMap.setMapType(AMap.MAP_TYPE_NAVI);
+//        MyLocationStyle myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
+//        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_MAP_ROTATE);
+//        myLocationStyle.interval(2000); //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
+//        aMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
+//        //aMap.getUiSettings().setMyLocationButtonEnabled(true);设置默认定位按钮是否显示，非必需设置。
+//        aMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
+//        aMap.setMapType(AMap.MAP_TYPE_NAVI);
     }
 
     @Override
@@ -113,7 +123,7 @@ public class NavigatorFragment extends SupportMapFragment implements INaviInfoCa
         super.onResume();
         //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
 //        mMapView.onResume();
-        mAMapNaviView.onResume();
+//        mAMapNaviView.onResume();
     }
 
     @Override
@@ -125,7 +135,7 @@ public class NavigatorFragment extends SupportMapFragment implements INaviInfoCa
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        mAMapNaviView.onPause();
+//        mAMapNaviView.onPause();
     }
 
     @Override
@@ -137,7 +147,7 @@ public class NavigatorFragment extends SupportMapFragment implements INaviInfoCa
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        mAMapNaviView.onDestroy();
+//        mAMapNaviView.onDestroy();
     }
 
     @Override
@@ -241,19 +251,19 @@ public class NavigatorFragment extends SupportMapFragment implements INaviInfoCa
          *      不走高速与高速优先不能同时为true
          *      高速优先与避免收费不能同时为true
          */
-        int strategy=0;
-        try {
-            strategy = mAMapNavi.strategyConvert(true, false, false, false, false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-//        mAMapNavi.calculateDriveRoute(sList, eList, mWayPointList, strategy);
-        List<NaviLatLng> e1 = new ArrayList<>();
-        NaviLatLng l1 = new NaviLatLng(39.96087, 116.45798);
-//        Poi start = new Poi("三元桥", new LatLng(39.96087,116.45798), "");
-//        /**终点传入的是北京站坐标,但是POI的ID "B000A83M61"对应的是北京西站，所以实际算路以北京西站作为终点**/
-//        Poi end = new Poi("北京站", new LatLng(39.904556, 116.427231), "B000A83M61");
-        List<NaviLatLng> w1 = new ArrayList<>();
+//        int strategy=0;
+//        try {
+//            strategy = mAMapNavi.strategyConvert(true, false, false, false, false);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+////        mAMapNavi.calculateDriveRoute(sList, eList, mWayPointList, strategy);
+//        List<NaviLatLng> e1 = new ArrayList<>();
+//        NaviLatLng l1 = new NaviLatLng(39.96087, 116.45798);
+////        Poi start = new Poi("三元桥", new LatLng(39.96087,116.45798), "");
+////        /**终点传入的是北京站坐标,但是POI的ID "B000A83M61"对应的是北京西站，所以实际算路以北京西站作为终点**/
+////        Poi end = new Poi("北京站", new LatLng(39.904556, 116.427231), "B000A83M61");
+//        List<NaviLatLng> w1 = new ArrayList<>();
 
 //        mAMapNavi.calculateDriveRoute()
     }
