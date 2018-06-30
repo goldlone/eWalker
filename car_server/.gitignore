@@ -1,6 +1,9 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 
+# 隐秘录像
+videos/*.mp4
+
 ### STS ###
 .apt_generated
 .classpath
