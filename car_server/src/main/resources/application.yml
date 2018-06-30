@@ -1,6 +1,8 @@
-videoFilePath: "./videos/"
+#videoFilePath: "./videos/"
+videoFilePath: "/opt/videos/"
 #ServerIP: "http://192.168.1.104:8080/car/"
-ServerIP: "http://172.25.154.37:8080/car/"
+#ServerIP: "http://172.25.154.37:8080/car/"
+ServerIP: "http://39.107.251.64/car/"
 
 server:
   servlet:
@@ -14,6 +16,10 @@ spring:
     password: abc.123
     driver-class-name: com.mysql.jdbc.Driver
 #    type: com.alibaba.druid.pool.DruidDataSource
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

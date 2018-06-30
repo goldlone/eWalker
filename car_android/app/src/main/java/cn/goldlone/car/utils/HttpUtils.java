@@ -102,7 +102,7 @@ public class HttpUtils {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if(response.code()==200) {
-                    Log.i("HTTP:发送位置信息", response.body().toString());
+                    Log.i("HTTP:发送位置信息", response.body().string());
                 }
             }
         });
@@ -150,6 +150,8 @@ public class HttpUtils {
                 System.out.println("求救视频上传成功");
                 System.out.println(sb.toString());
                 return sb.toString();
+            } else {
+                System.out.println(conn.getResponseCode()+" - "+conn.getResponseMessage());
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -13,8 +13,9 @@ public class Configs {
     /** 基本配置 **/
     // 服务器IP
 //    public static final String SERVER_IP = "http://192.168.1.106:8080/car/";
-    public static final String SERVER_IP = "http://172.25.154.37:8080/car/";
+//    public static final String SERVER_IP = "http://172.25.154.37:8080/car/";
 //    public static final String SERVER_IP = "http://192.168.43.143:8080/car/";
+    public static final String SERVER_IP = "http://39.107.251.64/car/";
     // 缓存文件地址
     public static String CACHE_FILE;
 

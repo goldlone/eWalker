@@ -20,7 +20,7 @@ public class CarApplicationTests {
     @Autowired
     private UserService us;
 
-    @Test
+//    @Test
     public void addUser() {
         User user = new User("18435187057", DigestUtils.sha256Hex("123"));
         System.out.println(user);
@@ -28,7 +28,7 @@ public class CarApplicationTests {
         System.out.println(us.addUser(user));
     }
 
-    @Test
+//    @Test
     public void selectUser() {
         User user = us.selectUser("18435187057");
         System.out.println(user.toString());

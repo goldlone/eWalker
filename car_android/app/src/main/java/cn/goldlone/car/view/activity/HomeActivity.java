@@ -250,7 +250,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
     public boolean checkHelpContact() {
         if(Configs.contacts.size()==0) {
             tipsContactDialog = new AlertDialog.Builder(this)
-                    .setTitle("请设置紧急联系人")
+                    .setTitle("请先设置紧急联系人")
                     .setView(R.layout.dialog_tip_contact)
                     .setPositiveButton("前往", new DialogInterface.OnClickListener() {
                         @Override
@@ -436,8 +436,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener, 
                 new Thread() {
                     @Override
                     public void run() {
+                        System.out.println("开始上传");
                         // 上传视频录像
                         String url = HttpUtils.sendHelpVideo(new File(videoFileName));
+                        System.out.println("求救录像"+url);
                         // 发送求救视频下载链接
                         for(HelpContact contact: Configs.contacts) {
                             new Contact(HomeActivity.this, contact.getPhone()).sendSMS("求救录像: "+url);

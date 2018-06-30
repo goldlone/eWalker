@@ -64,7 +64,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btn_home_help:
 //                Toast.makeText(getActivity(), "求救", Toast.LENGTH_SHORT).show();
-                ((HomeActivity)getActivity()).startHelp();
+                if(((HomeActivity)getActivity()).checkHelpContact())
+                    ((HomeActivity)getActivity()).startHelp();
                 break;
             case R.id.btn_home_person:
 //                Toast.makeText(getActivity(), "个人中心", Toast.LENGTH_SHORT).show();
